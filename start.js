@@ -1,26 +1,50 @@
+let url ="https://crudcrud.com/api/0584cab4bd064bb4aadfc8be8ee507f0"
+
 // GET REQUEST
 function getTodos() {
   console.log('GET Request');
+  axios.get(`${url}/data`)
+  .then((res)=>console.log(res))
+  .catch((err)=>console.log(err));
 }
 
 // POST REQUEST
 function addTodo() {
   console.log('POST Request');
+  axios.post(`${url}/data`,{
+    title: "NewTodo",
+    completed: false
+  }).then((res)=>console.log(res))
+  .catch((err)=>console.log(err));
 }
 
 // PUT/PATCH REQUEST
 function updateTodo() {
   console.log('PUT/PATCH Request');
+  axios.post(`${url}/data/1`,{
+    title: "UpdatedTodo",
+    completed: true
+  }).then((res)=>console.log(res))
+  .catch((err)=>console.log(err));
 }
 
 // DELETE REQUEST
 function removeTodo() {
   console.log('DELETE Request');
+  axios.delete(`${url}/data/${userID}`)
+  .then((res)=>console.log(res))
+  .catch((err)=>console.log(err));
 }
 
 // SIMULTANEOUS DATA
 function getData() {
   console.log('Simultaneous Request');
+  axios.all([axios.get(`${url}/data`),
+  axios.get(`${url}/todo`)])
+  .then((res)=>{
+    console.log([res[0]]);
+    console.log([res[1]]);
+  })
 }
 
 // CUSTOM HEADERS
@@ -44,7 +68,10 @@ function cancelToken() {
 }
 
 // INTERCEPTING REQUESTS & RESPONSES
-
+axios.interceptors.request.use(config=>{
+  console.log(`${config.method.toUpperCase()} request sent to ${config.url} at ${new Date().getTime()}`);
+  return config
+})
 // AXIOS INSTANCES
 
 // Show output in browser
